@@ -142,4 +142,38 @@ public class InventoryManager : MonoBehaviour
 
         return null; // Return null if no item found
     }
+
+    public void QuickSortByValue(List<InventoryItem> list, int low, int high)
+    {
+        if (low < high)
+        {
+            int partitionIndex = Partition(list, low, high);
+
+            QuickSortByValue(list, low, partitionIndex - 1);
+            QuickSortByValue(list, partitionIndex + 1, high);
+        }
+    }
+
+    private int Partition(List<InventoryItem> list, int low, int high)
+    {
+        int pivot = list[high].ItemValue;
+        int i = low - 1;
+
+        for (int j = low; j < high; j++)
+        {
+            if (list[j].ItemValue < pivot)
+            {
+                i++;
+                InventoryItem temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
+            }
+        }
+
+        InventoryItem swapTemp = list[i + 1];
+        list[i + 1] = list[high];
+        list[high] = swapTemp;
+
+        return i + 1;
+    }
 }
